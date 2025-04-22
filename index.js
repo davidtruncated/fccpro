@@ -30,28 +30,20 @@ const validate = (date) => {
 
 app.get("/api/:date?", (req, res) => {
   const input = req.params.date;
-
   let date;
 
-  // Case: No date param, use current date
   if (!input) {
     date = new Date();
   }
-  // Case: Input is a number (unix timestamp)
   else if (!isNaN(input)) {
     date = new Date(parseInt(input));
   }
-  // Case: Input is a string date
   else {
     date = new Date(input);
   }
-
-  // Check for invalid date
   if (date.toString() === "Invalid Date") {
     return res.json({ error: "Invalid Date" });
   }
-
-  // Return valid response
   res.json({
     unix: date.getTime(),
     utc: date.toUTCString()
